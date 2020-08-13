@@ -1,0 +1,136 @@
+{
+	"info": {
+		"_postman_id": "44a48590-30dc-48fc-a470-9788c14f1572",
+		"name": "users app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:{{port}}{{apiRoot}}/users/7f1b0c9b-54ac-4d4e-8b84-f064a9b72dc3",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}{{apiRoot}}",
+					"path": [
+						"users",
+						"7f1b0c9b-54ac-4d4e-8b84-f064a9b72dc3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"login\": \"aksv2\",\n    \"password\": \"test23\",\n    \"age\": 42\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}:{{port}}{{apiRoot}}/users",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}{{apiRoot}}",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete user",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:{{port}}{{apiRoot}}/users/7f1b0c9b-54ac-4d4e-8b84-f064a9b72dc3",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}{{apiRoot}}",
+					"path": [
+						"users",
+						"7f1b0c9b-54ac-4d4e-8b84-f064a9b72dc3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "udate user",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"7f1b0c9b-54ac-4d4e-8b84-f064a9b72dc3\",\n    \"login\": \"aksv2\",\n    \"password\": \"test23\",\n    \"age\": 42,\n    \"isDeleted2\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}:{{port}}{{apiRoot}}/users/7f1b0c9b-54ac-4d4e-8b84-f064a9b72dc3",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}{{apiRoot}}",
+					"path": [
+						"users",
+						"7f1b0c9b-54ac-4d4e-8b84-f064a9b72dc3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get suggest",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:{{port}}{{apiRoot}}/users?loginSubstring=aksv&limit=1",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}{{apiRoot}}",
+					"path": [
+						"users"
+					],
+					"query": [
+						{
+							"key": "loginSubstring",
+							"value": "aksv"
+						},
+						{
+							"key": "limit",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -10,15 +10,15 @@ const ws = fs.createWriteStream(`${process.cwd()}/csv/nodejs-hw1-ex2.txt`);
 ws.on('error', err => console.log(`File write error: ${err.message}`));
 
 csv({
-  ignoreColumns: /amount/,
-  headers: ['book', 'author', 'amount', 'price'],
-  noheader: false, 
+    ignoreColumns: /amount/,
+    headers: ['book', 'author', 'amount', 'price'],
+    noheader: false
 })
-  .fromStream(rs)
-  .subscribe(json => {
-    return new Promise(resolve => {
-      resolve(json);
-    });
-  }, err => {
-    console.log(err);
-  }).pipe(ws);
+    .fromStream(rs)
+    .subscribe(json => {
+        return new Promise(resolve => {
+            resolve(json);
+        });
+    }, err => {
+        console.log(err);
+    }).pipe(ws);
