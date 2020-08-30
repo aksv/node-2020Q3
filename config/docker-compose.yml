@@ -1,0 +1,13 @@
+version: "3"
+services:
+  db:
+    image: "postgres:12"
+    environment:
+      - POSTGRES_PASSWORD=somepassword
+    container_name: "userssrv_postgres"
+    ports:
+      - "54320:5432"
+    volumes:
+      - userssrv_dbdata:/var/lib/postgresql/data
+volumes:
+  userssrv_dbdata:
