@@ -1,18 +1,22 @@
+import { Express } from 'express';
+
 import dbLoader from './db';
 import express from './express';
-import { userModel } from '../models';
+import { loadUser } from '../models';
 import { UserRepository, UserMapper } from '../data-access';
 import { UserService } from '../services';
 import { userValidators } from '../api/middlewares/validators';
 import { userRoute } from '../api/routes';
+import { UserController } from '../api/controllers';
 import { validationErrorHandler } from '../api/middlewares/errors';
 
-export default async ({ app }) => {
+export default async (app: Express) => {
     const db = await dbLoader();
-    const User = userModel(db);
-    const userRepository = new UserRepository(User, new UserMapper());
+    loadUser(db);
+    const userRepository = new UserRepository(new UserMapper());
     const userService = new UserService(userRepository);
-    express({ app });
-    userRoute({ app, userService, userValidators });
+    const userController = new UserController(userService);
+    express(app);
+    userRoute(app, userController, userValidators);
     app.use(validationErrorHandler);
 };
