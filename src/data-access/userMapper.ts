@@ -1,11 +1,12 @@
+import { UserModel, User } from '../models';
 class UserMapper {
-    toDomain(entity) {
+    toDomain(entity): User {
         const { dataValues } = entity;
         const { id, login, password, age, isDeleted } = dataValues;
         return { id, login, password, age, isDeleted };
     }
 
-    toDalEntity(domain) {
+    toDalEntity(domain: User) {
         return domain;
     }
 }
