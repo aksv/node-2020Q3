@@ -1,3 +1,5 @@
 import userRoute from './userRoute';
+import groupRoute from './groupRoute';
+import userGroupRouter from './userGroupRouter';
 
-export { userRoute };
+export { userRoute, groupRoute, userGroupRouter };

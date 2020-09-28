@@ -1,36 +1,16 @@
 import { Request, Response } from 'express';
 
 import { UserService } from '../../services';
-import { User } from '../../models';
+import { User, UserInfo } from '../../models';
+import CommonController from './commonController';
 
-interface Error {
-  name?: string;
-  errors?: any[];
-}
-
-export default class UserController {
+export default class UserController extends CommonController {
   userService: UserService;
 
   constructor(userService: UserService) {
+    super();
     this.userService = userService;
   }
-
-  private sendNotFound(res: Response, id: string) {
-    res.status(404);
-    res.json({ error: `User with id ${id} is not found` });
-  }
-
-  private sendError(res: Response, error: Error) {
-    let errorMesage: any;
-    if (error?.name === 'SequelizeUniqueConstraintError') {
-        res.status(409);
-        errorMesage = error.errors.map(err => ({ error: err.message }));
-    } else {
-        res.status(500);
-        errorMesage = [{ error: 'Unexpected error' }];
-    }
-    res.json(errorMesage);
-}
 
   createUser = async (req: Request, res: Response) => {
     const user: User = req.body;
@@ -44,7 +24,7 @@ export default class UserController {
 
   getUserById = async (req: Request, res: Response) => {
     const id: string = req.params.id;
-    const user = await this.userService.getUserById(id);
+    const user: UserInfo = await this.userService.getUserById(id);
     if (!user) {
         this.sendNotFound(res, id);
     } else {

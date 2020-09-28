@@ -1,6 +1,6 @@
 import { Op } from 'sequelize';
 
-import { UserModel, User, UserAutoSuggest } from '../models';
+import { UserModel, User, UserInfo, UserAutoSuggest, GroupModel } from '../models';
 
 class UserRepository {
     userMapper: any;
@@ -28,16 +28,20 @@ class UserRepository {
         return isDeleted[0] > 0;
     }
 
-    async getUserById(id: string) {
-        const users = await UserModel.findAll({
+    async getUserById(id: string): Promise<UserInfo> {
+        const user = await UserModel.findOne({
             where: {
                 id
-            }
+            },
+            include: {
+                model: GroupModel,
+                through: { attributes: [] }
+              }
         });
-        if (users.length === 0) {
+        if (!user) {
             return null;
         }
-        return this.userMapper.toDomain(users[0]);
+        return this.userMapper.toFullUserInfo(user);
     }
 
     async getAutoSuggest(suggest: UserAutoSuggest): Promise<Array<User>> {
