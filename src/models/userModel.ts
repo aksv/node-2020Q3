@@ -1,12 +1,18 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
 
+import { Group } from './groupModel';
+
 export interface User {
     id: string;
     login: string;
     password: string;
     age: number;
     isDeleted: boolean;
+}
+
+export interface UserInfo extends User {
+    groups: Array<Group>;
 }
 
 export class UserModel extends Model<User> implements User {

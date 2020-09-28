@@ -1,5 +1,5 @@
 import { UserRepository } from '../data-access';
-import { UserAutoSuggest, User } from '../models';
+import { UserAutoSuggest, User, UserInfo } from '../models';
 
 class UserService {
     userRepository: UserRepository;
@@ -20,7 +20,7 @@ class UserService {
         return this.userRepository.deleteUser(id);
     }
 
-    getUserById(id: string) {
+    getUserById(id: string): Promise<UserInfo> {
         return this.userRepository.getUserById(id);
     }
 
