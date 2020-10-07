@@ -1,35 +1,40 @@
 import { Router } from 'express';
-import { GroupController } from '../controllers'
+import { GroupController } from '../controllers';
 import config from '../../config';
+import { asyncErrorHandler } from '../../utils';
 
-export default (app, groupController: GroupController, groupValidators) => {
+export default (
+    app,
+    groupController: GroupController,
+    groupValidators
+) => {
     const groupRouter = Router();
     app.use(`${config.api.prefix}/groups`, groupRouter);
 
     groupRouter.get(
         '/',
-        groupController.getGroups
+        asyncErrorHandler(groupController.getGroups)
     );
 
     groupRouter.get(
         '/:id',
-        groupController.getGroupById
+        asyncErrorHandler(groupController.getGroupById)
     );
 
     groupRouter.post(
         '/',
         groupValidators.onCreateUpdate,
-        groupController.createGroup
+        asyncErrorHandler(groupController.createGroup)
     );
 
     groupRouter.put(
         '/:id',
         groupValidators.onCreateUpdate,
-        groupController.updateGroup
+        asyncErrorHandler(groupController.updateGroup)
     );
 
     groupRouter.delete(
         '/:id',
-        groupController.deleteGroup
+        asyncErrorHandler(groupController.deleteGroup)
     );
 };

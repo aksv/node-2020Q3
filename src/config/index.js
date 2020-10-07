@@ -1,3 +1,5 @@
+import winstonConfig from './winstonConfig';
+
 export default {
     databaseUrl:
         'postgres://postgres:somepassword@localhost:54320/db_users',
@@ -6,3 +8,5 @@ export default {
     },
     port: 3000
 };
+
+export { winstonConfig };

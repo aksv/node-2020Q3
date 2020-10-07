@@ -1,3 +1,4 @@
 import validationErrorHandler from './validationErrorHandler';
+import defaultErrorHandler from './defaultErrorHandler';
 
-export { validationErrorHandler };
+export { validationErrorHandler, defaultErrorHandler };
