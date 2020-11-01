@@ -12,6 +12,11 @@ import {
     addToGroupValidator
 } from './userGroupValidator';
 
+import {
+    signinValidator,
+    refreshValidator
+} from './authValidator';
+
 const userValidators = {
     onCreate: userCreateValidator,
     onUpdate: userUpdateValidator,
@@ -26,4 +31,14 @@ const userGroupValidators = {
     onAddToGroup: addToGroupValidator
 }
 
-export { userValidators, groupValidators, userGroupValidators };
+const authValidators = {
+    onSignin: signinValidator,
+    onRefresh: refreshValidator
+}
+
+export {
+    userValidators,
+    groupValidators,
+    userGroupValidators,
+    authValidators
+};
