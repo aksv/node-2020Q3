@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { GroupController } from '../controllers';
-import config from '../../config';
 import { asyncErrorHandler } from '../../utils';
 
 export default (
@@ -10,7 +9,7 @@ export default (
     authMiddleware
 ) => {
     const groupRouter = Router();
-    app.use(`${config.api.prefix}/groups`, groupRouter);
+    app.use(`${process.env.API_PREFIX}/groups`, groupRouter);
 
     groupRouter.get(
         '/',

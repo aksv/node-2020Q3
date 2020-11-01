@@ -1,7 +1,7 @@
 import request from 'supertest';
 import 'regenerator-runtime/runtime';
 import randomstring from 'randomstring';
-import { isEqual } from 'lodash'
+import { isEqual } from 'lodash';
 import application from '../../lib/app';
 
 describe('test /groups path', () => {

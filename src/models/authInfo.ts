@@ -10,6 +10,7 @@ export interface AuthInfo {
 
 export interface AuthConfig {
     secret: string;
+    refreshSecret: string;
     tokenExpirationTime: number;
     refreshTokenExpirationTime: number;
 }

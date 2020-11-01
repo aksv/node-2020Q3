@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { AuthController } from '../controllers';
-import config from '../../config';
 import { asyncErrorHandler } from '../../utils';
 
 export default (
@@ -9,7 +8,7 @@ export default (
     authValidators
 ) => {
     const authRouter = Router();
-    app.use(`${config.api.prefix}/auth`, authRouter);
+    app.use(`${process.env.API_PREFIX}/auth`, authRouter);
 
     authRouter.post(
         '/signin',

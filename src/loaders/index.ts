@@ -7,7 +7,8 @@ import {
     loadUser,
     loadGroup,
     loadUserGroups,
-    loadRefreshToken
+    loadRefreshToken,
+    AuthConfig
 } from '../models';
 import {
     UserRepository,
@@ -48,7 +49,6 @@ import {
 } from '../api/middlewares/errors';
 import { serviceLogger, logger } from '../logging';
 import { winstonConfig } from '../config';
-import config from '../config';
 import { authHandler } from '../api/middlewares/auth';
 
 export default async (app: Express) => {
@@ -81,7 +81,13 @@ export default async (app: Express) => {
         logService
     );
     const refreshTokenRepository = new RefreshTokenRepository(new RefreshTokenMapper);
-    const authService = new AuthService(userRepository, refreshTokenRepository, config.jwt);
+    const jwtConfig: AuthConfig = {
+        secret: process.env.JWT_SECRET,
+        refreshSecret: process.env.JWT_REFRESH_SECRET,
+        tokenExpirationTime: Number(process.env.JWT_TOKEN_EXP_TIME),
+        refreshTokenExpirationTime: Number(process.env.JWT_REFRESH_TOKEN_EXP_TIME)
+    }
+    const authService = new AuthService(userRepository, refreshTokenRepository, jwtConfig);
     const authController = new AuthController(authService);
 
     const authMiddleware = authHandler(authService);
