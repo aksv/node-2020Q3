@@ -10,14 +10,14 @@ class UserService {
     }
 
     async createUser(user: User) {
-        const password: String = await hashPassword(user.password);
-        const userToCreate: User = { ...user, password: user.password };
+        const password: string = await hashPassword(user.password);
+        const userToCreate: User = { ...user, password };
         return this.userRepository.createUser(userToCreate);
     }
 
     async updateUser(id: string, user: User) {
         const password: String = await hashPassword(user.password);
-        const userToUpdate: User = { ...user, password: user.password}
+        const userToUpdate: User = { ...user, password: user.password }
         return this.userRepository.updateUser(id, userToUpdate);
     }
 
