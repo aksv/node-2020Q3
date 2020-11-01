@@ -36,7 +36,7 @@ class UserRepository {
             include: {
                 model: GroupModel,
                 through: { attributes: [] }
-              }
+            }
         });
         if (!user) {
             return null;
@@ -55,6 +55,18 @@ class UserRepository {
             limit: suggest.limit
         });
         return users.map(this.userMapper.toDomain);
+    }
+
+    async getUserByLogin(login: string): Promise<User> {
+        const user = await UserModel.findOne({
+            where: {
+                login
+            }
+        });
+        if (!user) {
+            return null;
+        }
+        return this.userMapper.toDomain(user);
     }
 }
 

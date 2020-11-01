@@ -6,7 +6,8 @@ import { asyncErrorHandler } from '../../utils';
 export default (
     app,
     userGroupController: UserGroupController,
-    userGroupValidators
+    userGroupValidators,
+    authMiddleware
 ) => {
     const groupRouter = Router();
     app.use(`${config.api.prefix}/group`, groupRouter);
@@ -14,6 +15,7 @@ export default (
     groupRouter.post(
         '/:id/users',
         userGroupValidators.onAddToGroup,
+        authMiddleware,
         asyncErrorHandler(userGroupController.addUsersToGroup)
     );
 };

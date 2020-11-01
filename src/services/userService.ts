@@ -1,5 +1,6 @@
 import { UserRepository } from '../data-access';
 import { UserAutoSuggest, User, UserInfo } from '../models';
+import { hashPassword } from '../utils';
 
 class UserService {
     userRepository: UserRepository;
@@ -8,12 +9,16 @@ class UserService {
         this.userRepository = userRepository;
     }
 
-    createUser(user: User) {
-        return this.userRepository.createUser(user);
+    async createUser(user: User) {
+        const password: String = await hashPassword(user.password);
+        const userToCreate: User = { ...user, password: user.password };
+        return this.userRepository.createUser(userToCreate);
     }
 
-    updateUser(id: string, user: User) {
-        return this.userRepository.updateUser(id, user);
+    async updateUser(id: string, user: User) {
+        const password: String = await hashPassword(user.password);
+        const userToUpdate: User = { ...user, password: user.password}
+        return this.userRepository.updateUser(id, userToUpdate);
     }
 
     deleteUser(id: string) {

@@ -3,33 +3,44 @@ import { Logger } from 'winston';
 
 import dbLoader from './db';
 import express from './express';
-import { loadUser, loadGroup, loadUserGroups } from '../models';
+import {
+    loadUser,
+    loadGroup,
+    loadUserGroups,
+    loadRefreshToken
+} from '../models';
 import {
     UserRepository,
     UserMapper,
     GroupRepository,
     GroupMapper,
-    UserGroupRepository
+    UserGroupRepository,
+    RefreshTokenMapper,
+    RefreshTokenRepository
 } from '../data-access';
 import {
     UserService,
     GroupService,
-    UserGroupService
+    UserGroupService,
+    AuthService
 } from '../services';
 import {
     userValidators,
     groupValidators,
-    userGroupValidators
+    userGroupValidators,
+    authValidators
 } from '../api/middlewares/validators';
 import {
     userRoute,
     groupRoute,
-    userGroupRouter
+    userGroupRouter,
+    authRouter
 } from '../api/routes';
 import {
     UserController,
     GroupController,
-    UserGroupController
+    UserGroupController,
+    AuthController
 } from '../api/controllers';
 import {
     validationErrorHandler,
@@ -37,12 +48,15 @@ import {
 } from '../api/middlewares/errors';
 import { serviceLogger, logger } from '../logging';
 import { winstonConfig } from '../config';
+import config from '../config';
+import { authHandler } from '../api/middlewares/auth';
 
 export default async (app: Express) => {
     const db = await dbLoader();
     loadGroup(db);
     loadUser(db);
     loadUserGroups(db);
+    loadRefreshToken(db);
 
     const logService: Logger = logger(winstonConfig);
 
@@ -66,12 +80,18 @@ export default async (app: Express) => {
         userGroupService,
         logService
     );
+    const refreshTokenRepository = new RefreshTokenRepository(new RefreshTokenMapper);
+    const authService = new AuthService(userRepository, refreshTokenRepository, config.jwt);
+    const authController = new AuthController(authService);
+
+    const authMiddleware = authHandler(authService);
 
     express(app);
     serviceLogger(app, logService);
-    groupRoute(app, groupController, groupValidators);
-    userRoute(app, userController, userValidators);
-    userGroupRouter(app, userGroupController, userGroupValidators);
+    groupRoute(app, groupController, groupValidators, authMiddleware);
+    userRoute(app, userController, userValidators, authMiddleware);
+    userGroupRouter(app, userGroupController, userGroupValidators, authMiddleware);
+    authRouter(app, authController, authValidators);
     app.use(validationErrorHandler);
 
     const defaultHandler = defaultErrorHandler(logService);
