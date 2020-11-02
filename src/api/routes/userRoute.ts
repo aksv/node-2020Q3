@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { UserController } from '../controllers';
-import config from '../../config';
 import { asyncErrorHandler } from '../../utils';
 
 export default (
@@ -10,7 +9,7 @@ export default (
     authMiddleware
 ) => {
     const userRouter = Router();
-    app.use(`${config.api.prefix}/users`, userRouter);
+    app.use(`${process.env.API_PREFIX}/users`, userRouter);
 
     userRouter.get(
         '/:id',

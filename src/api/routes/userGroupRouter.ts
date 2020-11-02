@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { UserGroupController } from '../controllers';
-import config from '../../config';
 import { asyncErrorHandler } from '../../utils';
 
 export default (
@@ -10,7 +9,7 @@ export default (
     authMiddleware
 ) => {
     const groupRouter = Router();
-    app.use(`${config.api.prefix}/group`, groupRouter);
+    app.use(`${process.env.API_PREFIX}/group`, groupRouter);
 
     groupRouter.post(
         '/:id/users',

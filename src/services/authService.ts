@@ -25,7 +25,7 @@ class AuthService {
         );
         const refreshToken: string = createToken(
             { id: userId },
-            this.authConfig.secret,
+            this.authConfig.refreshSecret,
             { expiresIn: this.authConfig.refreshTokenExpirationTime }
         );
         this.refreshTokenRepository.upsertRefreshToken({
@@ -55,7 +55,7 @@ class AuthService {
     }
 
     async refresh(refreshToken: string): Promise<AuthInfo> {
-        const decoded: any = decodeToken(refreshToken, this.authConfig.secret);
+        const decoded: any = decodeToken(refreshToken, this.authConfig.refreshSecret);
         if (!decoded) {
             return {
                 authStatus: 'INVALID_REFRESH_TOKEN'

@@ -1,9 +1,7 @@
 import { Sequelize } from 'sequelize';
 
-import config from '../config';
-
 export default async () => {
-    const sequelize = new Sequelize(config.databaseUrl);
+    const sequelize = new Sequelize(process.env.DATABASE_URL);
     // TODO: handle errors
     await sequelize.authenticate();
     return sequelize;
